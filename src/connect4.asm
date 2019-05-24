@@ -313,7 +313,9 @@ col_full_e:
 
 no_error:
 	li	$v0, 0	 #if there is no error return 0
-	j	check_done
+	j	check_done 	#not needed in single file implementation
+				#however might be used when project
+				#is split into multiple files
 
 check_done:
 	lw	$ra, 0($sp)
@@ -710,10 +712,7 @@ check_loop_done:
 	beq	$v0, $zero, check_win_done
 	bne	$v0, $zero, player_won 
 player_won:
-	li	$v0, 1	#for some reason when checking diagonal wins, this does
-			# literally nothing and v0 stays stuck on 5. i never
-			#set it to that so I have no clue why it is even on that
-			# and refuses to change it. i literally watched this line 
+	li	$v0, 1
 check_win_done:
 	lw	$ra, 28($sp)
 	lw	$s0, 24($sp)
@@ -796,7 +795,7 @@ p_loop_done:
 # Destroys:     none
 #
 	
-p_row: 			#print the rows with squares in them
+p_row: 
         addi    $sp, $sp, -A_FRAMESIZE
         sw      $ra, -4+A_FRAMESIZE($sp)
         sw      $s7, 28($sp)
